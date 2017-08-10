@@ -14,14 +14,6 @@ if (!defined('PUN'))
 // Load the appropriate DB layer class
 switch ($db_type)
 {
-	case 'mysql':
-		require_once PUN_ROOT.'include/dblayer/mysql.php';
-		break;
-
-	case 'mysql_innodb':
-		require_once PUN_ROOT.'include/dblayer/mysql_innodb.php';
-		break;
-
 	case 'mysqli':
 		require_once PUN_ROOT.'include/dblayer/mysqli.php';
 		break;
@@ -34,8 +26,8 @@ switch ($db_type)
 		require_once PUN_ROOT.'include/dblayer/pgsql.php';
 		break;
 
-	case 'sqlite':
-		require_once PUN_ROOT.'include/dblayer/sqlite.php';
+	case 'pdo_sqlite':
+		require_once PUN_ROOT.'include/dblayer/pdo_sqlite.php';
 		break;
 
 	default:

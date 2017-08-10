@@ -223,11 +223,9 @@ function update_search_index($mode, $post_id, $message, $subject = null)
 
 		if (!empty($new_words))
 		{
-			switch ($db_type)
-			{
-				case 'mysql':
+			switch ($db_type) {
+			
 				case 'mysqli':
-				case 'mysql_innodb':
 				case 'mysqli_innodb':
 					$db->query('INSERT INTO '.$db->prefix.'search_words (word) VALUES(\''.implode('\'),(\'', array_map(array($db, 'escape'), $new_words)).'\')');
 					break;
@@ -279,9 +277,7 @@ function strip_search_index($post_ids)
 
 	switch ($db_type)
 	{
-		case 'mysql':
 		case 'mysqli':
-		case 'mysql_innodb':
 		case 'mysqli_innodb':
 		{
 			$result = $db->query('SELECT word_id FROM '.$db->prefix.'search_matches WHERE post_id IN('.$post_ids.') GROUP BY word_id') or error('Unable to fetch search index word match', __FILE__, __LINE__, $db->error());

@@ -142,9 +142,7 @@ if (version_compare($cur_version, '1.2', '<'))
 $mysql = false;
 switch ($db_type)
 {
-	case 'mysql':
 	case 'mysqli':
-	case 'mysql_innodb':
 	case 'mysqli_innodb':
 		$mysql_info = $db->get_version();
 		if (version_compare($mysql_info['version'], MIN_MYSQL_VERSION, '<'))
@@ -626,7 +624,7 @@ if (isset($_POST['req_db_pass']))
 	switch ($db_type)
 	{
 		// For SQLite we compare against the database file name, since the password is left blank
-		case 'sqlite':
+		case 'pdo_sqlite':
 			if ($req_db_pass != strtolower($db_name))
 				error(sprintf($lang_update['Invalid file error'], 'config.php'));
 
@@ -1065,7 +1063,7 @@ switch ($stage)
 				)
 			);
 
-			if ($db_type == 'mysql' || $db_type == 'mysqli' || $db_type == 'mysql_innodb' || $db_type == 'mysqli_innodb')
+			if ($db_type == 'mysqli' || $db_type == 'mysqli_innodb')
 				$schema['INDEXES']['ident_idx'] = array('ident(8)');
 
 			$db->create_table('search_cache', $schema);
@@ -1123,7 +1121,7 @@ switch ($stage)
 				)
 			);
 
-			if ($db_type == 'sqlite')
+			if ($db_type == 'pdo_sqlite')
 			{
 				$schema['PRIMARY KEY'] = array('id');
 				$schema['UNIQUE KEYS'] = array('word_idx'	=> array('word'));
@@ -1170,7 +1168,7 @@ switch ($stage)
 			$db->query('UPDATE '.$db->prefix.'config SET conf_value = \''.$db->escape($default_style).'\' WHERE conf_name = \'o_default_style\'') or error('Unable to update default style config', __FILE__, __LINE__, $db->error());
 
 		// For MySQL(i) without InnoDB, change the engine of the online table (for performance reasons)
-		if ($db_type == 'mysql' || $db_type == 'mysqli')
+		if ($db_type == 'mysqli')
 			$db->query('ALTER TABLE '.$db->prefix.'online ENGINE = MyISAM') or error('Unable to change engine type of online table to MyISAM', __FILE__, __LINE__, $db->error());
 
 		// Remove config option o_ranks
@@ -1420,9 +1418,7 @@ switch ($stage)
 		// Reset the sequence for the search words (not needed for SQLite)
 		switch ($db_type)
 		{
-			case 'mysql':
 			case 'mysqli':
-			case 'mysql_innodb':
 			case 'mysqli_innodb':
 				$db->query('ALTER TABLE '.$db->prefix.'search_words auto_increment=1') or error('Unable to update table auto_increment', __FILE__, __LINE__, $db->error());
 				break;
@@ -1786,9 +1782,7 @@ foreach ($errors[$id] as $cur_error)
 			// Reset the sequence for the search words (not needed for SQLite)
 			switch ($db_type)
 			{
-				case 'mysql':
 				case 'mysqli':
-				case 'mysql_innodb':
 				case 'mysqli_innodb':
 					$db->query('ALTER TABLE '.$db->prefix.'search_words auto_increment=1') or error('Unable to update table auto_increment', __FILE__, __LINE__, $db->error());
 					break;
