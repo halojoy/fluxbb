@@ -243,7 +243,7 @@ class DBLayer
 
 		return array(
 			'name'		=> 'PDO SQLite',
-			'version'	=> $version['versionString']
+			'version'	=> $version
 		);
 	}
 
