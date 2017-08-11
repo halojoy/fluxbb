@@ -46,7 +46,7 @@ if ($action == 'rebuild')
 
 		// Reset the sequence for the search words (not needed for SQLite)
 		switch ($db_type)
-		{:
+		{
 			case 'mysqli':
 			case 'mysqli_innodb':
 				$result = $db->query('ALTER TABLE '.$db->prefix.'search_words auto_increment=1') or error('Unable to update table auto_increment', __FILE__, __LINE__, $db->error());
